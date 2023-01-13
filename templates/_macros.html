@@ -1,0 +1,23 @@
+{% macro saluda(nombre) %}
+<h1 class="text-center">Hola, {{ nombre }}!</h1>
+{% endmacro %}
+
+
+{% macro render_list_items(list) %}
+{% for item in list %}
+<li>{{ item }}</li>
+{% endfor %}
+{% endmacro %}
+
+
+{% macro beautiful_list(list, is_ordered=false ) %}
+{% if is_ordered %}
+<ol>
+    {{ render_list_items(list) }}
+</ol>
+{% else %}
+<ul>
+    {{ render_list_items(list) }}
+</ul>
+{% endif %}
+{% endmacro %}
