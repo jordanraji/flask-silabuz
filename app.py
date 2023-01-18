@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_wtf import CSRFProtect
+from flask_migrate import Migrate
 
 from forms import BasicForm, SignupForm, LoginForm
 from config import Config
@@ -10,9 +11,11 @@ app = Flask(__name__)
 app.config.from_object(Config)
 
 csrf = CSRFProtect()
+migrate = Migrate()
 
 db.init_app(app)
 csrf.init_app(app)
+migrate.init_app(app, db)
 
 @app.route('/')
 def index():
@@ -53,12 +56,16 @@ def signup():
         username = form.username.data.lower()
         email = form.email.data.lower()
         password = form.password.data
+        full_name = form.full_name.data
+        description = form.description.data
 
         existing_user = User.query.filter_by(email=email).first()
         if not existing_user:
             user = User(
                 username=username,
-                email=email
+                email=email,
+                full_name=full_name,
+                description=description
             )
             user.set_password(password)
             db.session.add(user)

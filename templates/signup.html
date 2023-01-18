@@ -11,6 +11,10 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
             {{ form.username.label }}
             {{ form.username(class_='form-control') }}
+            {{ form.full_name.label }}
+            {{ form.full_name(class_='form-control') }}
+            {{ form.description.label }}
+            {{ form.description(class_='form-control') }}
             {{ form.email.label }}
             {{ form.email(class_='form-control') }}
             {{ form.password.label }}
