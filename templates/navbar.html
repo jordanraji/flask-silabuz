@@ -16,6 +16,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('contacto') }}">Contacto</a>
                 </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('admin') }}">Panel</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('logout') }}">Cerrar Sesión</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('login') }}">Iniciar Sesión</a>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

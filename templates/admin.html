@@ -4,5 +4,7 @@
 {% endblock %}
 
 {% block body %}
-<h1>Panel de administración</h1>
+{% if current_user.is_authenticated %}
+<h5>Bienvenido, {{ current_user.full_name }}!</h5>
+{% endif %}
 {% endblock %}
