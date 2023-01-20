@@ -1,9 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
+from app import db
 from flask_login import UserMixin
-
-db = SQLAlchemy()
+from werkzeug.security import check_password_hash, generate_password_hash
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -20,11 +17,3 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
-
-class Post(db.Model):
-    __tablename__ = 'posts'
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(200), nullable=True)
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
