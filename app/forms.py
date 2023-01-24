@@ -20,6 +20,6 @@ class SignupForm(FlaskForm):
     description = StringField("Descripción")
     submit = SubmitField("Crear cuenta")
 
-class CreatePostForm(FlaskForm):
+class PostForm(FlaskForm):
     body = TextAreaField("Contenido", validators=[DataRequired()])
     submit = SubmitField('Enviar')

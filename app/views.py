@@ -4,12 +4,13 @@ from app import db
 from app.models.post import Post
 from app.models.user import User
 from app.forms import BasicForm
+from sqlalchemy import desc
 
 bp = Blueprint("views_bp", __name__)
 
 @bp.route('/')
 def index():
-    posts = Post.query.all()
+    posts = Post.query.order_by(desc(Post.timestamp)).all()
     return render_template("index.html", posts=posts)
 
 @bp.route('/<username>')
