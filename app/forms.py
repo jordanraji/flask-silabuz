@@ -12,13 +12,18 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Ingresar")
 
-class SignupForm(FlaskForm):
+class UpdateUserForm(FlaskForm):
     username = StringField("Nombre de usuario", validators=[DataRequired()])
     email = EmailField("Correo electrónico", validators=[DataRequired()])
-    password = PasswordField("Password", validators=[DataRequired()])
     full_name = StringField("Nombre y apellidos")
     description = StringField("Descripción")
-    submit = SubmitField("Crear cuenta")
+    submit = SubmitField("Enviar")
+
+class UpdatePasswordForm(FlaskForm):
+    password = PasswordField("Password", validators=[DataRequired()])
+
+class SignupForm(UpdateUserForm, UpdatePasswordForm):
+    pass
 
 class PostForm(FlaskForm):
     body = TextAreaField("Contenido", validators=[DataRequired()])
