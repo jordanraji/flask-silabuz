@@ -1,11 +1,21 @@
-from flask import Blueprint, url_for, flash, redirect, render_template,request
+from flask import Blueprint, url_for, flash, redirect, render_template, request, current_app
 from flask_login import current_user, login_required, login_user, logout_user
 
-from app import login_manager, db
+from app import login_manager, db, http_auth
 from app.models.user import User
-from app.forms import SignupForm, LoginForm, UpdatePasswordForm, UpdateUserForm
+from app.forms import SignupForm, LoginForm, UpdatePasswordForm, UpdateUserForm, UpdateAvatarForm
+from werkzeug.utils import secure_filename
+
+import os
 
 bp = Blueprint("auth_bp", __name__)
+
+@http_auth.verify_password
+def verify_password(email, password):
+    user = User.query.filter_by(email=email).first()
+    if user and user.check_password(password):
+        return user
+    return False
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -109,5 +119,20 @@ def delete_profile():
     db.session.commit()
     return redirect(url_for('auth_bp.logout'))
 
-
-# https://secure.gravatar.com/avatar/4242513ffd7fcaa66569f4a37f488fee?s=100&d=identicon&r=g
+@bp.route('/profile/update-avatar', methods=['GET','POST'])
+@login_required
+def update_avatar():
+    form = UpdateAvatarForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        file = form.file.data
+        filename = secure_filename(file.filename)
+        if filename != '':
+            _, ext = os.path.splitext(filename)
+            path = os.path.join(current_app.root_path, 'static', 'img', 'avatars', str(current_user.id)+ext)
+            file.save(path)
+            current_user.avatar_url = f"{request.url_root}static/img/avatars/{str(current_user.id)+ext}"
+            db.session.commit()
+            flash("Se actualizó tu avatar con exito")
+            return redirect(url_for('admin_bp.admin'))
+        
+    return render_template("update-avatar.html", form=form)

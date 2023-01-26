@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, EmailField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Optional, Regexp
+from flask_wtf.file import FileField, FileAllowed
 
 class BasicForm(FlaskForm):
     nombre = StringField('Nombre')
@@ -27,4 +28,8 @@ class SignupForm(UpdateUserForm, UpdatePasswordForm):
 
 class PostForm(FlaskForm):
     body = TextAreaField("Contenido", validators=[DataRequired()])
+    submit = SubmitField('Enviar')
+
+class UpdateAvatarForm(FlaskForm):
+    file = FileField('Archivo')
     submit = SubmitField('Enviar')

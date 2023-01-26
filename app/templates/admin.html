@@ -6,7 +6,7 @@
 {% block body %}
 {% if current_user.is_authenticated %}
 <h3>Bienvenido, {{ current_user.full_name }}!</h3>
-<img src="{{ current_user.avatar_url }}" alt="{{ current_user.full_name }}">
+<img class="img-profile" src="{{ current_user.avatar_url }}" alt="{{ current_user.full_name }}">
 <div class="row">
     <div class="col-md-2">
         <div class="card">
