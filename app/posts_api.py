@@ -33,7 +33,7 @@ class PostDetail(MethodView):
         return jsonify({'post': post.to_dict()}), 200
 
     @jwt_required()
-    def update(self, id):
+    def put(self, id):
         post = Post.query.get(id)
         user = current_user
         if post.user_id == user.id:
