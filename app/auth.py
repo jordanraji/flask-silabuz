@@ -1,7 +1,7 @@
 from flask import Blueprint, url_for, flash, redirect, render_template, request, current_app
 from flask_login import current_user, login_required, login_user, logout_user
 
-from app import login_manager, db, http_auth
+from app import login_manager, db, http_auth, jwt
 from app.models.user import User
 from app.forms import SignupForm, LoginForm, UpdatePasswordForm, UpdateUserForm, UpdateAvatarForm
 from werkzeug.utils import secure_filename
@@ -9,6 +9,15 @@ from werkzeug.utils import secure_filename
 import os
 
 bp = Blueprint("auth_bp", __name__)
+
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return User.query.filter_by(id=identity).one_or_none()
 
 @http_auth.verify_password
 def verify_password(email, password):
