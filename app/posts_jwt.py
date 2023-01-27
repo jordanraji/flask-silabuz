@@ -25,12 +25,12 @@ def login():
 @bp.get('/posts')
 def search_posts():
     posts = Post.query.all()
-    return ({'posts': [post.to_dict() for post in posts]}), 200
+    return jsonify({'posts': [post.to_dict() for post in posts]}), 200
 
 @bp.get('/posts/<id>')
 def get_post(id):
     post = Post.query.get(id)
-    return ({'post': post.to_dict()}), 200
+    return jsonify({'post': post.to_dict()}), 200
 
 @bp.post('/posts')
 @jwt_required()
