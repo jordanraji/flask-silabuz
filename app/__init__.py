@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from flask_jwt_extended import JWTManager
 from flask_smorest import Api
+from flask_marshmallow import Marshmallow
 
 from config import Config
 
@@ -16,6 +17,7 @@ login_manager = LoginManager()
 http_auth = HTTPBasicAuth()
 jwt = JWTManager()
 smorest_api = Api()
+ma = Marshmallow()
 
 def create_app():
     app = Flask(__name__)
@@ -27,6 +29,7 @@ def create_app():
     login_manager.init_app(app)
     jwt.init_app(app)
     smorest_api.init_app(app)
+    ma.init_app(app)
 
     with app.app_context():
         from app.auth import bp as auth_bp
