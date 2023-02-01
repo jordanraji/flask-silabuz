@@ -17,4 +17,4 @@ class PostSchema(ma.SQLAlchemySchema):
 
 post_schema = PostSchema()
 posts_schema = PostSchema(many=True)
-posts_schema_update = PostSchema(load_instance=False)
+post_schema_update = PostSchema(load_instance=False)

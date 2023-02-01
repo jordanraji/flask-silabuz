@@ -44,7 +44,8 @@ def create_app():
         app.register_blueprint(views_bp)
         app.register_blueprint(api_bp, url_prefix='/api')
         app.register_blueprint(posts_jwt_bp, url_prefix='/jwt/api')
-        app.register_blueprint(posts_api_bp, url_prefix='/sm/api')
+        # app.register_blueprint(posts_api_bp, url_prefix='/sm/api')
+        smorest_api.register_blueprint(posts_api_bp, url_prefix='/sm/api')
 
         csrf.exempt(api_bp)
         csrf.exempt(posts_jwt_bp)
